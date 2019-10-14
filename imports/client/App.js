@@ -29,7 +29,7 @@ class App extends Component {
     return (
       <div>
         <header>
-          <h1>Level Up Voting</h1>
+          <h1>GetEm Voting</h1>
         </header>
         <main>
           <form className='new-items' onSubmit={this.addItems.bind(this)}>
