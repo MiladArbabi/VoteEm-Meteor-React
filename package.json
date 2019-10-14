@@ -1,5 +1,5 @@
 {
-  "name": "votingAppReact",
+  "name": "votingappreact",
   "private": true,
   "scripts": {
     "start": "meteor run"
@@ -7,6 +7,27 @@
   "dependencies": {
     "meteor-node-stubs": "~0.2.0",
     "react": "^15.3.2",
+    "react-addons-pure-render-mixin": "^15.6.2",
     "react-dom": "^15.3.2"
-  }
+  },
+  "version": "1.0.0",
+  "description": "meteor/mongo with react app to create a voting app ",
+  "main": "index.js",
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MiladArbabi/VoteEm-Meteor-React.git"
+  },
+  "keywords": [
+    "react",
+    "mongoDB",
+    "meteor",
+    "voting"
+  ],
+  "author": "Milad Arbabi",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/MiladArbabi/VoteEm-Meteor-React/issues"
+  },
+  "homepage": "https://github.com/MiladArbabi/VoteEm-Meteor-React#readme"
 }

@@ -1,26 +1,50 @@
 import React, { Component } from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
-import Items from '../api/items';
+import Item from './Item';
+
+import Items from '../api/Items';
 
 class App extends Component {
-  constructor() {
-    super();
-    this.state = {
-      count: 0
-    }
+  addItems(e){
+    e.preventDefault();
+    const itemOne = this.refs.itemOne.value.trim();
+    const itemTwo = this.refs.itemTwo.value.trim();
+    if (itemOne != '' && itemTwo != '') {
+      Items.insert({
+        itemOne: {
+          text: itemOne,
+          value: 0,
+        },
+        itemTwo: {
+          text: itemTwo,
+          value: 0,
+        }, 
+    });
+    this.refs.itemOne.value = '';
+    this.refs.itemTwo.value = '';
   }
-  headingClick() {
-    this.setState({count: this.state.count + 1});
-  }
+}  
+
   render() {
     return (
-        <header onClick={this.headingClick.bind(this)}>
-          <Heading count={this.state.count} />
+      <div>
+        <header>
+          <h1>Level Up Voting</h1>
         </header>
+        <main>
+          <form onSubmit={this.addItems.bind(this)}>
+            <input type='text' ref='itemOne'/>
+            <input type='text' ref='itemTwo'/>
+            <button type='submit'>Add Items</button>
+            {this.props.items.map((item) => {
+              return <Item item={item} key={item._id}/>
+            })}
+          </form>
+        </main>
+      </div>
     );
   }
 }
-
 
 export default createContainer(() => {
   return {
@@ -28,11 +52,3 @@ export default createContainer(() => {
   }
 }, App);
 
-
-class Heading extends Component {
-  render() {
-    return (
-      <h1>{this.props.count}</h1>
-    )
-  }
-}
