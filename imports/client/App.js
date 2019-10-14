@@ -1,21 +1,38 @@
 import React, { Component } from 'react';
-import Items from '../api/items';
 import { createContainer } from 'meteor/react-meteor-data';
+import Items from '../api/items';
 
 class App extends Component {
-
+  constructor() {
+    super();
+    this.state = {
+      count: 0
+    }
+  }
+  headingClick() {
+    this.setState({count: this.state.count + 1});
+  }
   render() {
     return (
-        <header>
-          <h1>Level Up Voting</h1>
+        <header onClick={this.headingClick.bind(this)}>
+          <Heading count={this.state.count} />
         </header>
     );
   }
 }
 
+
 export default createContainer(() => {
   return {
     items: Items.find({}).fetch()
-    //basic find function and call fetch to get array and pass to items
   }
 }, App);
+
+
+class Heading extends Component {
+  render() {
+    return (
+      <h1>{this.props.count}</h1>
+    )
+  }
+}
