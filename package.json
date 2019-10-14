@@ -5,10 +5,12 @@
     "start": "meteor run"
   },
   "dependencies": {
+    "classnames": "^2.2.6",
     "meteor-node-stubs": "~0.2.0",
     "react": "^15.3.2",
     "react-addons-pure-render-mixin": "^15.6.2",
-    "react-dom": "^15.3.2"
+    "react-dom": "^15.3.2",
+    "react-komposer": "^2.0.0"
   },
   "version": "1.0.0",
   "description": "meteor/mongo with react app to create a voting app ",
