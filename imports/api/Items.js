@@ -5,7 +5,10 @@ const Items = new Mongo.Collection('items');
 if (Meteor.isServer) {
 
   Meteor.publish('allItems', function() {
-    return Items.find();
+    return Items.find({}, {
+      limit: 10,
+      sort: { lastUpdated: 1 }
+    });
   });
 
 
@@ -27,17 +30,27 @@ if (Meteor.isServer) {
 
     voteOnItem(item, position) {
       check(item, Object);
+      let lastUpdated = new Date();
       if(Meteor.userId()) {
         if(position === 'itemOne') {
           Items.update(item._id, {
+            //increment by one on voteOnItem
             $inc: {
               'itemOne.value': 1
+            }, 
+            //update particular value without affecting the other items
+            $set: {
+              lastUpdated
             }
           })
         } else {
           Items.update(item._id, {
             $inc: {
               'itemTwo.value': 1
+            }, 
+            //update particular value without affecting the other items
+            $set: {
+              lastUpdated
             }
           })
         }

@@ -29,7 +29,7 @@ class App extends Component {
     return (
       <div>
         <header>
-          <h1>Level Up Voting</h1>
+          <h1>GetEm Voting</h1>
           <LoginButtons />
         </header>
         <main>
@@ -52,6 +52,10 @@ export default createContainer(() => {
   let itemsSub = Meteor.subscribe('allItems');
   return {
     ready: itemsSub.ready(),
-    items: Items.find().fetch()
+    items: Items.find({}, {
+      //only display one item at a time
+      limit: 1,
+      sort: { lastUpdated: 1 }
+    } ).fetch()
   }
 }, App);
