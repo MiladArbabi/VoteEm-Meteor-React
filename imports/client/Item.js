@@ -11,7 +11,6 @@ export default class Item extends Component {
   }
 
   render() {
-    return <div>Loading</div>
     return (
       <div className='item'>
         <div className='vote-one' onClick={this.voteOne.bind(this)}>
