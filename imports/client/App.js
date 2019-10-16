@@ -12,22 +12,20 @@ class App extends Component {
     const itemOne = this.refs.itemOne.value.trim();
     const itemTwo = this.refs.itemTwo.value.trim();
     if (itemOne != '' && itemTwo != '') {
-      Items.insert({
-        itemOne: {
-          text: itemOne,
-          value: 0,
-        },
-        itemTwo: {
-          text: itemTwo,
-          value: 0,
-        }, 
-    });
-    this.refs.itemOne.value = '';
-    this.refs.itemTwo.value = '';
+      Meteor.call('insertNewItem', itemOne, itemTwo, (err, res) => {
+        if(!err) {
+          this.refs.itemOne.value = '';
+          this.refs.itemTwo.value = '';
+        }
+      });
+    }
   }
-}
 
   render() {
+    if (!this.props.ready) {
+      return <div>Loading</div>
+    }
+
     return (
       <div>
         <header>
@@ -50,7 +48,10 @@ class App extends Component {
 }
 
 export default createContainer(() => {
+  //to put items in pur devtool
+  let itemsSub = Meteor.subscribe('allItems');
   return {
+    ready: itemsSub.ready(),
     items: Items.find({}).fetch()
   }
 }, App);
