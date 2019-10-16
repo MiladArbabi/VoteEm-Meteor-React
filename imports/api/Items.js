@@ -3,14 +3,12 @@ import { Mongo } from 'meteor/mongo';
 const Items = new Mongo.Collection('items');
 
 if (Meteor.isServer) {
-
   Meteor.publish('allItems', function() {
     return Items.find({}, {
       limit: 10,
       sort: { lastUpdated: 1 }
     });
   });
-
 
   Meteor.methods({
     insertNewItem(itemOne, itemTwo) {
@@ -58,7 +56,5 @@ if (Meteor.isServer) {
     }
   });
 }
-
-
 
 export default Items;
