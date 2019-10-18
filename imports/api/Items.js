@@ -4,26 +4,14 @@ import SimpleSchema from 'simpl-schema';
 const Items = new Mongo.Collection('items');
 
 const ItemsSchema = new SimpleSchema({
-  itemOne: {
-    type: Object
-  },
-  'itemOne.text': {
-    type: String
-  },
-  'itemOne.value': {
-    type: SimpleSchema.Integer,
-  },
-  itemTwo: {
-    type: Object
-  },
-  'itemTwo.text': {
-    type: String
-  },
-  'itemTwo.value': {
-    type: SimpleSchema.Integer,
-  },
+  itemOne: Object,
+    'itemOne.text': String,
+    'itemOne.value': SimpleSchema.Integer,
+  itemTwo: Object,
+    'itemTwo.text': String,
+    'itemTwo.value': SimpleSchema.Integer,
   lastUpdated: {
-    type: Date,
+    type: Date, // when defining an optional param we will need the type
     optional: true
   }
 });
