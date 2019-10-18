@@ -1,19 +1,49 @@
 import { Mongo } from 'meteor/mongo';
+import SimpleSchema from 'simpl-schema';
 
 const Items = new Mongo.Collection('items');
 
+const ItemsSchema = new SimpleSchema({
+  itemOne: {
+    type: Object
+  },
+  'itemOne.text': {
+    type: String
+  },
+  'itemOne.value': {
+    type: SimpleSchema.Integer,
+  },
+  itemTwo: {
+    type: Object
+  },
+  'itemTwo.text': {
+    type: String
+  },
+  'itemTwo.value': {
+    type: SimpleSchema.Integer,
+  },
+  lastUpdated: {
+    type: Date,
+    optional: true
+  }
+});
+
+Items.attachSchema(ItemsSchema);
+
+
+
 if (Meteor.isServer) {
+
   Meteor.publish('allItems', function() {
     return Items.find({}, {
-      limit: 10,
+      limit: 50,
       sort: { lastUpdated: 1 }
     });
   });
 
+
   Meteor.methods({
     insertNewItem(itemOne, itemTwo) {
-      check(itemOne, String);
-      check(itemTwo, String);
       Items.insert({
         itemOne: {
           text: itemOne,
@@ -32,11 +62,9 @@ if (Meteor.isServer) {
       if(Meteor.userId()) {
         if(position === 'itemOne') {
           Items.update(item._id, {
-            //increment by one on voteOnItem
             $inc: {
               'itemOne.value': 1
-            }, 
-            //update particular value without affecting the other items
+            },
             $set: {
               lastUpdated
             }
@@ -45,8 +73,7 @@ if (Meteor.isServer) {
           Items.update(item._id, {
             $inc: {
               'itemTwo.value': 1
-            }, 
-            //update particular value without affecting the other items
+            },
             $set: {
               lastUpdated
             }
@@ -56,5 +83,7 @@ if (Meteor.isServer) {
     }
   });
 }
+
+
 
 export default Items;

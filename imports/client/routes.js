@@ -11,8 +11,6 @@ import MainLayout from './layouts/MainLayout';
 import App from './App';
 import About from './pages/About';
 
-
-
 Meteor.startup(() => {
   render(
     <Router history={browserHistory}>
