@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
-import { LoginButtons } from 'meteor/okgrow:accounts-ui-react';
-
 
 import Item from './Item';
 
@@ -21,12 +19,14 @@ class App extends Component {
       });
     }
   }
+
   showAll() {
     if(this.props.showAll) {
       Session.set('showAll', false);
     } else {
       Session.set('showAll', true);
     }
+
   }
 
   render() {
@@ -35,25 +35,19 @@ class App extends Component {
     }
 
     return (
-      <div>
-        <header>
-          <h1>GetEm Voting</h1>
-          <LoginButtons />
-          <button onClick={this.showAll.bind(this)}>
-            Show {this.props.showAll ? 'One' : 'All'}
-          </button>
-        </header>
-        <main>
-          <form className='new-items' onSubmit={this.addItems.bind(this)}>
-            <input type='text' ref='itemOne' />
-            <input type='text' ref='itemTwo'/>
-            <button type='submit'>Add Items</button>
-          </form>
-          {this.props.items.map((item) => {
-            return <Item item={item} key={item._id}/>
-          })}
-        </main>
-      </div>
+      <main>
+        <center><button onClick={this.showAll.bind(this)}>
+          Show {this.props.showAll ? 'One' : 'All'}
+        </button></center>
+        <form className='new-items' onSubmit={this.addItems.bind(this)}>
+          <input type='text' ref='itemOne' />
+          <input type='text' ref='itemTwo'/>
+          <button type='submit'>Add Items</button>
+        </form>
+        {this.props.items.map((item) => {
+          return <Item item={item} key={item._id}/>
+        })}
+      </main>
     );
   }
 }
@@ -66,9 +60,8 @@ export default createContainer(() => {
     showAll,
     ready: itemsSub.ready(),
     items: Items.find({}, {
-      //only display one item at a time
       limit: showAll ? 50 : 1,
       sort: { lastUpdated: 1 }
-    } ).fetch()
+    }).fetch()
   }
 }, App);
