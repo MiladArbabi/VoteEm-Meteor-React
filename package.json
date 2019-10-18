@@ -5,8 +5,11 @@
     "start": "meteor run"
   },
   "dependencies": {
+    "babel-plugin-transform-decorators-legacy": "^1.3.5",
     "classnames": "^2.2.5",
+    "core-decorators": "^0.20.0",
     "lodash": ">=4.17.13",
+    "meteor-babel": "^7.6.1",
     "meteor-node-stubs": "~0.2.0",
     "react": "^15.3.2",
     "react-addons-pure-render-mixin": "^15.3.2",
@@ -19,7 +22,6 @@
   "version": "1.0.0",
   "description": "meteor/mongo with react app to create a voting app ",
   "main": "index.js",
-  "devDependencies": {},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/MiladArbabi/VoteEm-Meteor-React.git"

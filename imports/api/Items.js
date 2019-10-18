@@ -3,21 +3,22 @@ import SimpleSchema from 'simpl-schema';
 
 const Items = new Mongo.Collection('items');
 
+const ItemSchema = new SimpleSchema({//extract and use wherever needed
+  text: String,
+  value: SimpleSchema.Integer
+});
+
 const ItemsSchema = new SimpleSchema({
-  itemOne: Object,
-    'itemOne.text': String,
-    'itemOne.value': SimpleSchema.Integer,
-  itemTwo: Object,
-    'itemTwo.text': String,
-    'itemTwo.value': SimpleSchema.Integer,
+  itemOne: ItemSchema,
+  itemTwo: ItemSchema,
   lastUpdated: {
-    type: Date, // when defining an optional param we will need the type
+    // when defining an optional param we will need the type
+    type: Date, 
     optional: true
   }
 });
 
 Items.attachSchema(ItemsSchema);
-
 
 
 if (Meteor.isServer) {
@@ -71,7 +72,5 @@ if (Meteor.isServer) {
     }
   });
 }
-
-
 
 export default Items;

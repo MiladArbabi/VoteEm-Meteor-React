@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
+// import { autobind } from 'core-decorators';
 
 import Item from './Item';
 
 import Items from '../api/Items';
 
+// @autobind
 class App extends Component {
   addItems(event) {
     event.preventDefault();
