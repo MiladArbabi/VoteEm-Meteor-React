@@ -3,22 +3,22 @@ import SimpleSchema from 'simpl-schema';
 
 const Items = new Mongo.Collection('items');
 
-const ItemSchema = new SimpleSchema({//extract and use wherever needed
+const ItemSchema = new SimpleSchema({
   text: String,
-  value: SimpleSchema.Integer
+  value: SimpleSchema.Integer,
 });
 
 const ItemsSchema = new SimpleSchema({
   itemOne: ItemSchema,
   itemTwo: ItemSchema,
   lastUpdated: {
-    // when defining an optional param we will need the type
-    type: Date, 
+    type: Date,
     optional: true
   }
 });
 
 Items.attachSchema(ItemsSchema);
+
 
 
 if (Meteor.isServer) {
@@ -43,6 +43,7 @@ if (Meteor.isServer) {
           value: 0,
         }
       });
+      Roles.addUsersToRoles(Meteor.userId(), 'submitter');
     },
 
     voteOnItem(item, position) {
@@ -68,9 +69,12 @@ if (Meteor.isServer) {
             }
           })
         }
+        Roles.addUsersToRoles(Meteor.userId(), 'voter');
       }
     }
   });
 }
+
+
 
 export default Items;

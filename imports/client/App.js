@@ -3,6 +3,7 @@ import { createContainer } from 'meteor/react-meteor-data';
 // import { autobind } from 'core-decorators';
 
 import Item from './Item';
+import IsRole from './utilities/IsRole';
 
 import Items from '../api/Items';
 
@@ -38,9 +39,11 @@ class App extends Component {
 
     return (
       <main>
-        <center><button onClick={this.showAll.bind(this)}>
-          Show {this.props.showAll ? 'One' : 'All'}
-        </button></center>
+        <IsRole role='admin'>
+          <button onClick={this.showAll.bind(this)}>
+            Show {this.props.showAll ? 'One' : 'All'}
+          </button>
+        </IsRole>
         <form className='new-items' onSubmit={this.addItems.bind(this)}>
           <input type='text' ref='itemOne' />
           <input type='text' ref='itemTwo'/>
@@ -54,13 +57,13 @@ class App extends Component {
   }
 }
 
-
 export default createContainer(() => {
   let itemsSub = Meteor.subscribe('allItems');
+  let userSub = Meteor.subscribe('currentUser');
   let showAll = Session.get('showAll');
   return {
     showAll,
-    ready: itemsSub.ready(),
+    ready: itemsSub.ready() && userSub.ready(),
     items: Items.find({}, {
       limit: showAll ? 50 : 1,
       sort: { lastUpdated: 1 }
