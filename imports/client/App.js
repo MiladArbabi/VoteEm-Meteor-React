@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
-// import { autobind } from 'core-decorators';
+import { autobind } from 'core-decorators';
 
 import Item from './Item';
 import IsRole from './utilities/IsRole';
@@ -37,13 +37,18 @@ class App extends Component {
         return <div>Loading</div>;
     }
 
+    const test = true;
     return (
       <main>
-        <IsRole role='admin'>
+        <IsRole role='admin' {...this.props}>
           <button onClick={this.showAll.bind(this)}>
             Show {this.props.showAll ? 'One' : 'All'}
           </button>
         </IsRole>
+        {test && 
+          <h1>I'm poping up</h1>
+          }
+          {test ? <h1>I'm inLine conditional</h1> : <div>It's not ALLOWED</div> }
         <form className='new-items' onSubmit={this.addItems.bind(this)}>
           <input type='text' ref='itemOne' />
           <input type='text' ref='itemTwo'/>
@@ -57,16 +62,23 @@ class App extends Component {
   }
 }
 
-export default createContainer(() => {
+export default createContainer(({params}) => {
   let itemsSub = Meteor.subscribe('allItems');
   let userSub = Meteor.subscribe('currentUser');
   let showAll = Session.get('showAll');
-  return {
-    showAll,
-    ready: itemsSub.ready() && userSub.ready(),
-    items: Items.find({}, {
+
+  let itemsArray;
+  if (params.id) {
+    itemsArray = Items.find({_id: params.id}).fetch();
+  } else {
+    itemsArray = Items.find({}, {
       limit: showAll ? 50 : 1,
       sort: { lastUpdated: 1 }
     }).fetch()
+  }
+  return {
+    showAll,
+    ready: itemsSub.ready() && userSub.ready(),
+    items: itemsArray
   }
 }, App);

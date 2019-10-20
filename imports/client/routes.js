@@ -17,6 +17,7 @@ Meteor.startup(() => {
       <Route path="/" component={MainLayout}>
         <IndexRoute component={App} />
         <Route path="/about" component={About} />
+        <Route path="/items/:id" component={App} />
       </Route>
     </Router>,
     document.getElementById('render-target')
